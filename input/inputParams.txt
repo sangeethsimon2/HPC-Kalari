@@ -1,0 +1,8 @@
+dimensionality    2
+domainLengthX     1.
+domainLengthY     1.
+domainLengthZ     0.
+Nx                10
+Ny                10
+Nz                1
+conductivityCoeff 2.
