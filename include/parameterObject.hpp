@@ -1,7 +1,7 @@
 /* A class & helper functions that handles the parameter related activities of this code*/
 /* Implements the Singleton design pattern */
-#ifndef _PARAMETERSHEADER
-#define _PARAMETERSHEADER
+#ifndef _PARAMETERS_H
+#define _PARAMETERS_H
 
 #include<string>
 #include<fstream>
