@@ -18,6 +18,7 @@ target_include_directories(HeatKernelND PUBLIC "${PROJECT_SOURCE_DIR}/include")
 target_sources(HeatKernelND PRIVATE
                src/main.cpp
                src/parameterObject.cpp
+               src/structuredGrid.cpp
                #src/allocateMemory.cpp
                #src/deAllocateMemory.cpp
                #src/initialize.cpp
