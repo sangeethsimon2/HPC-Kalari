@@ -39,7 +39,7 @@ class StructuredGrid:public Grid{
 
 
     private:
-          std::vector<int> gridArray;
+          std::vector<float> gridArray;
           float m_dx, m_dy, m_dz;
 };
 

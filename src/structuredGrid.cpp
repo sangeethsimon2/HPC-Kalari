@@ -2,9 +2,10 @@
 
 template<int DIM>
 void StructuredGrid<DIM>::computeGridSpacing(){
-                 m_dx = m_domainX/m_Nx;
-                 m_dy = m_domainY/m_Ny;
-                 m_dz = m_domainZ/m_Nz;
+                 //TODO test for exceptions here, especially NAN in spacings for wrong inputs
+                 m_dx = (float)(m_domainX/m_Nx);
+                 m_dy = (float)(m_domainY/m_Ny);
+                 m_dz = (float)(m_domainZ/m_Nz);
 }
 
 /*The grid storage convention is x, y, z: grid(i+)*/
@@ -13,6 +14,7 @@ void StructuredGrid<DIM>::createGrid(){
                  if constexpr (DIM == 2) {
                     gridArray.resize(m_Nx * m_Ny);
                     std::cout << "resizing 2D grid array\n";
+
                  }
                  else if constexpr (DIM == 3) {
                     gridArray.resize(m_Nx * m_Ny * m_Nz);
