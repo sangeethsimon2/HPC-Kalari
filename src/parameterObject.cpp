@@ -81,6 +81,8 @@ void parameters::checkParameters(){
     assert((getGridSize("x")>0) && " Number of grid points in X cannot be negative or 0");
     assert((getGridSize("y")>0) && " Number of grid points in Y cannot be negative or 0");
     assert((getGridSize("z")>0) && " Number of grid points in Z cannot be negative or 0");
+    if(getDimensionality()==2)
+      assert((getGridSize("z")==1) && "For 2D problems, number of Z directional cells must be 1");
  }
 
 void parameters::printParameters(){
