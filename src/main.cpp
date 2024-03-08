@@ -8,6 +8,7 @@
 #include "structuredGrid.hpp"
 #include "state.hpp"
 #include "initializer.hpp"
+#include "hostTimer.hpp"
 
 
 int main(int argc, char **argv){
@@ -37,14 +38,18 @@ int main(int argc, char **argv){
 
     // Create an  flattened array to store the temperature data
     // Ownership of this temperature state can be shared if needed
-    std::shared_ptr<State> temperature = std::make_shared<State>(params->getGridSize("x")*params->getGridSize("y")*params->getGridSize("z"));
+    std::shared_ptr<State> temperature = std::make_shared<State>(params->getTotalGridSize());
 
     //Initialize using an initializer class
     Initializer initializationObject;
-    initializationObject.initialize(temperature.get(), params->getGridSize("x")*params->getGridSize("y")*params->getGridSize("z"), 1.0);
+    initializationObject.initialize(temperature.get(), params->getTotalGridSize(), 1.0);
 
+    //Instantiate a host timer
+    hostTimer hostTimer;
 
+    hostTimer.startClock();
 
-
+    hostTimer.stopClock();
+    hostTimer.printElapsedTime();
     return 0;
 }

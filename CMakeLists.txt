@@ -19,6 +19,7 @@ target_sources(HeatKernelND PRIVATE
                src/main.cpp
                src/parameterObject.cpp
                src/structuredGrid.cpp
+               src/hostTimer.cpp
                #src/allocateMemory.cpp
                #src/deAllocateMemory.cpp
                #src/initialize.cpp
