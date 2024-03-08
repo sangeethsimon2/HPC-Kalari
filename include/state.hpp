@@ -24,6 +24,15 @@ class State{
             m_storage.resize(0);
           }
 
+          //Getter function
+          float& getStateAtPoint(int index){
+            return(m_storage[index]);
+          }
+          float* getState(){
+            return(m_storage.data());
+          }
+
+
     protected:
           //Underground storage array for the data (temperature)
           //Flattened array layout for multidimensional data
