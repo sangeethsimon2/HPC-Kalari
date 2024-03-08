@@ -6,3 +6,4 @@ Nx                10
 Ny                10
 Nz                1
 conductivityCoeff 2.
+convergenceTol   1e-1 

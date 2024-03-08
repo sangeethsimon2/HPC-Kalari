@@ -30,12 +30,16 @@ public:
           int getDimensionality();
           float getDomainLength(std::string direction);
           int getGridSize(std::string direction);
+          int getTotalGridSize();
           float getConductivityCoeff();
+          float getConvergenceTolerance();
 
           //A function to check for correctness of the provided parameters
           void checkParameters();
           // A function to print the parameters that have been read and filled
           void printParameters();
+          // A method to compute additional parameters from the input data
+          void computeAdditionalParameters();
 protected:
           //Static instance filled by the CTOR
           static parameters* m_uniqueParameterInstance;
@@ -46,6 +50,8 @@ protected:
             readParameterFile(fileName);
             //Call function to check for parameter correctness
             checkParameters();
+            //Compute parameters (totalGridSize...)
+            computeAdditionalParameters();
             // TODO:  Mask with a IFDEBUG flag
             printParameters();
           }
@@ -53,8 +59,9 @@ protected:
 private:
         int m_dimensionality;
         float m_domainX, m_domainY, m_domainZ;
-        int m_Nx, m_Ny, m_Nz;
+        int m_Nx, m_Ny, m_Nz, m_totalGridSize;
         float m_conductivityCoeff;
+        float m_convergenceTolerance;
 };
 
 

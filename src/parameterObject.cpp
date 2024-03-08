@@ -27,6 +27,8 @@ void parameters::readParameterFile(const std::string& fileName)
 				m_Nz=std::stoi(data);
 			else if(comment=="conductivityCoeff")
 				m_conductivityCoeff=std::stof(data);
+      else if(comment=="convergenceTol")
+				m_convergenceTolerance=std::stof(data);
 		}
 	dataFile.close();
 
@@ -69,6 +71,7 @@ int parameters::getGridSize(std::string direction){
 }
 
 float parameters::getConductivityCoeff(){return(m_conductivityCoeff);}
+float parameters::getConvergenceTolerance(){return(m_convergenceTolerance);}
 
 // Implementation of the method to check the correctness of the parameters
 void parameters::checkParameters(){
@@ -81,8 +84,10 @@ void parameters::checkParameters(){
     assert((getGridSize("x")>0) && " Number of grid points in X cannot be negative or 0");
     assert((getGridSize("y")>0) && " Number of grid points in Y cannot be negative or 0");
     assert((getGridSize("z")>0) && " Number of grid points in Z cannot be negative or 0");
+    assert((getConvergenceTolerance()>0) && "Convergence tolerance must be >0");
     if(getDimensionality()==2)
       assert((getGridSize("z")==1) && "For 2D problems, number of Z directional cells must be 1");
+
  }
 
 void parameters::printParameters(){
@@ -95,4 +100,13 @@ void parameters::printParameters(){
   std::cout<<" Number of grid points in Y ="<<getGridSize("y")<<std::endl;
   std::cout<<" Number of grid points in Z ="<<getGridSize("z")<<std::endl;
   std::cout<<" Thermal Conductivity coefficient ="<<getConductivityCoeff()<<std::endl;
+  std::cout<<" The convergence tolerance ="<<getConvergenceTolerance()<<std::endl;
+  }
+
+void parameters::computeAdditionalParameters(){
+  //Compute total grid size
+  m_totalGridSize = m_Nx*m_Ny*m_Nz;
+  assert((m_totalGridSize!=0) && "Total Grid Size cannot be 0");
 }
+
+int parameters::getTotalGridSize(){return(m_totalGridSize);}
