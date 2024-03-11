@@ -9,6 +9,9 @@
 #include "state.hpp"
 #include "initializer.hpp"
 #include "hostTimer.hpp"
+#include "kernel.hpp"
+#include "jacobiSerialImpl.hpp"
+
 
 
 int main(int argc, char **argv){
@@ -51,5 +54,10 @@ int main(int argc, char **argv){
 
     hostTimer.stopClock();
     hostTimer.printElapsedTime();
+
+    //Create a Kernel instance
+    Kernel heatKernel(std::make_unique<JacobiSerialImpl>());
+    heatKernel.updateSolution();
+
     return 0;
 }
