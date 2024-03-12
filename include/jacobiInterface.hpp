@@ -4,9 +4,11 @@ jacobi implementation based on user input*/
 #ifndef _JACOBIINTERFACE_H
 #define _JACOBIINTERFACE_H
 
+#include "state.hpp"
+
 class JacobiInterface{
     public:
-           virtual void updateSolution()=0;
+           virtual void updateSolution(State* _solutionInitial, State* _solutionUpdated)=0;
            virtual ~JacobiInterface() = default;
 };
 

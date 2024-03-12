@@ -13,7 +13,7 @@ base class, the kernel class and the main()*/
 class JacobiSerialImpl: public JacobiInterface{
 
     public:
-           void updateSolution(){
+           void updateSolution(State* _solutionInitial, State* _solutionUpdated){
             std::cout<<" Called serial implementation\n";
            }
 

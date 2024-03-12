@@ -7,6 +7,7 @@ the correct jacobi implementation to compute the heat equation updates*/
 #include<memory>
 
 #include "jacobiInterface.hpp"
+#include "state.hpp"
 
 class Kernel{
     public:
@@ -17,8 +18,8 @@ class Kernel{
           m_jacobiStrategy = std::move(_jacobiStrategy);
         }
 
-        void updateSolution(){
-            m_jacobiStrategy->updateSolution();
+        void updateSolution(State* _solutionInitial, State* _solutionUpdated){
+            m_jacobiStrategy->updateSolution(_solutionInitial, _solutionUpdated);
         }
     protected:
         std::unique_ptr<JacobiInterface> m_jacobiStrategy;
