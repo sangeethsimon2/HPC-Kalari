@@ -41,11 +41,13 @@ int main(int argc, char **argv){
 
     // Create an  flattened array to store the temperature data
     // Ownership of this temperature state can be shared if needed
-    std::shared_ptr<State> temperature = std::make_shared<State>(params->getTotalGridSize());
+    std::shared_ptr<State> temperature_initial = std::make_shared<State>(params->getTotalGridSize());
+    std::shared_ptr<State> temperature_updated = std::make_shared<State>(params->getTotalGridSize());
 
     //Initialize using an initializer class
     Initializer initializationObject;
-    initializationObject.initialize(temperature.get(), params->getTotalGridSize(), 1.0);
+    initializationObject.initialize(temperature_initial.get(), params->getTotalGridSize(), 1.0);
+    initializationObject.initialize(temperature_updated.get(), params->getTotalGridSize(), 0.0);
 
     //Instantiate a host timer
     hostTimer hostTimer;
@@ -57,7 +59,8 @@ int main(int argc, char **argv){
 
     //Create a Kernel instance
     Kernel heatKernel(std::make_unique<JacobiSerialImpl>());
-    heatKernel.updateSolution();
+    //Call the update method
+    heatKernel.updateSolution(temperature_initial.get(), temperature_updated.get());
 
     return 0;
 }

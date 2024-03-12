@@ -72,6 +72,18 @@ int parameters::getGridSize(std::string direction){
 
 float parameters::getConductivityCoeff(){return(m_conductivityCoeff);}
 float parameters::getConvergenceTolerance(){return(m_convergenceTolerance);}
+int parameters::getTotalGridSize(){return(m_totalGridSize);}
+float parameters::getGridSpacing(std::string direction){
+    if(direction=="x")
+      {return(m_dx);}
+    else if (direction=="y")
+      {return(m_dy);}
+    else if (direction=="z")
+      {return(m_dz);}
+    else
+      {std::cout<<" Direction not recognized"; abort();}
+}
+float parameters::getTimeStep(){return(m_dt);}
 
 // Implementation of the method to check the correctness of the parameters
 void parameters::checkParameters(){
@@ -107,6 +119,19 @@ void parameters::computeAdditionalParameters(){
   //Compute total grid size
   m_totalGridSize = m_Nx*m_Ny*m_Nz;
   assert((m_totalGridSize!=0) && "Total Grid Size cannot be 0");
-}
 
-int parameters::getTotalGridSize(){return(m_totalGridSize);}
+  //Compute dx, dy and dz
+  m_dx = (float)m_domainX/m_Nx;
+  assert((m_dx>=0.) && " Grid spacing in X cannot be negative");
+
+  m_dy = (float)m_domainY/m_Ny;
+  assert((m_dy>=0.) && " Grid spacing in Y cannot be negative");
+
+  m_dz = (float)m_domainZ/m_Nz;
+  assert((m_dz>=0.) && " Grid spacing in Z cannot be negative");
+
+  //Compute time step according to CFL stability criterion
+  m_dt = (1.0/4.0 * getConductivityCoeff()) * (getDimensionality() == 2 ?
+  std::min(m_dx * m_dx, m_dy * m_dy) : std::min(std::min(m_dx * m_dx, m_dy * m_dy), m_dz * m_dz));
+  assert((m_dt>0.) && "Computed time step must be >0");
+}

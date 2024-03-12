@@ -8,6 +8,7 @@
 #include<sstream>
 #include<cassert>
 #include<iostream>
+#include<algorithm>
 
 class parameters{
 public:
@@ -30,9 +31,11 @@ public:
           int getDimensionality();
           float getDomainLength(std::string direction);
           int getGridSize(std::string direction);
-          int getTotalGridSize();
           float getConductivityCoeff();
           float getConvergenceTolerance();
+          int getTotalGridSize();
+          float getGridSpacing(std::string direction);
+          float getTimeStep();
 
           //A function to check for correctness of the provided parameters
           void checkParameters();
@@ -57,11 +60,17 @@ protected:
           }
 
 private:
+        //User input parameters
         int m_dimensionality;
         float m_domainX, m_domainY, m_domainZ;
-        int m_Nx, m_Ny, m_Nz, m_totalGridSize;
+        int m_Nx, m_Ny, m_Nz;
         float m_conductivityCoeff;
         float m_convergenceTolerance;
+
+        //Computed parameters
+        float m_totalGridSize=0.;
+        float m_dt=0;
+        float m_dx=0.; float m_dy=0.; float m_dz=0.;
 };
 
 
