@@ -5,6 +5,7 @@ void StructuredGrid<DIM>::computeGridSpacing(){
                  //TODO test for exceptions here, especially NAN in spacings for wrong inputs
                  m_dx = (float)(m_domainX/m_Nx);
                  m_dy = (float)(m_domainY/m_Ny);
+                 //Add if constexpr on DIM here
                  m_dz = (float)(m_domainZ/m_Nz);
 }
 

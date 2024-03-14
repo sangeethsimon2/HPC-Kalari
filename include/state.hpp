@@ -36,6 +36,13 @@ class State{
     protected:
           //Underground storage array for the data (temperature)
           //Flattened array layout for multidimensional data
+          //We envision that the array would be stored as a 3D array [k][j][i]
+          //with i being the continuous x directional data
+          //Access: For looping over elements use:
+          //loop over (k):
+          //  loop over (j):
+          //    loop over (i):
+          //       m_storage[i+j*Nx+k*Nx*Ny]
           std::vector<float> m_storage;
 };
 

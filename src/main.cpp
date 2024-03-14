@@ -11,7 +11,7 @@
 #include "hostTimer.hpp"
 #include "kernel.hpp"
 #include "jacobiSerialImpl.hpp"
-#include "boundaryUpdaterInterface.hpp"
+#include "boundaryCreatorInterface.hpp"
 #include "dirichletBoundaryCreator.hpp"
 
 
@@ -58,14 +58,17 @@ int main(int argc, char **argv){
     hostTimer.printElapsedTime();
 
     //Create boundary updater and update boundaries
-    BoundaryUpdaterInterface* boundaryUpdater = new DirichletBoundaryCreator(temperature_initial.get()->getState());
+    BoundaryCreatorInterface* boundaryUpdater = new DirichletBoundaryCreator(temperature_initial.get()->getState(),
+    params->getGridSize("x"), params->getGridSize("y"), params->getGridSize("z"), 10.0);
     //Set the boundary condition type (in the background the factory method is called)
     boundaryUpdater->setBoundaryConditionType();
     //Call the update method of the correct boundary type
+    //For dirichlet boundary conditions, call this only once; for other types, call in convergence loop
     boundaryUpdater->updateBoundaries();
 
     //Create a Kernel instance
-    Kernel heatKernel(std::make_unique<JacobiSerialImpl>());
+    Kernel heatKernel(std::make_unique<JacobiSerialImpl>(params->getGridSize("x"), params->getGridSize("y"), params->getGridSize("z"),
+    params->getTimeStep(), params->getConductivityCoeff()));
     //Call the update method
     heatKernel.updateSolution(temperature_initial.get(), temperature_updated.get());
 
