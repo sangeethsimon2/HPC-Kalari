@@ -8,7 +8,7 @@ jacobi implementation based on user input*/
 
 class JacobiInterface{
     public:
-           virtual void updateSolution(State* _solutionInitial, State* _solutionUpdated)=0;
+           virtual void updateSolution(float* _ptr2SolutionInitial=nullptr, float* _ptr2SolutionUpdated=nullptr)=0;
            virtual ~JacobiInterface() = default;
 };
 

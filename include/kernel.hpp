@@ -18,8 +18,8 @@ class Kernel{
           m_jacobiStrategy = std::move(_jacobiStrategy);
         }
 
-        void updateSolution(State* _solutionInitial, State* _solutionUpdated){
-            m_jacobiStrategy->updateSolution(_solutionInitial, _solutionUpdated);
+        void updateSolution(State* _solutionInitial=nullptr, State* _solutionUpdated=nullptr){
+            m_jacobiStrategy->updateSolution(_solutionInitial->getState(), _solutionUpdated->getState());
         }
     protected:
         std::unique_ptr<JacobiInterface> m_jacobiStrategy;
