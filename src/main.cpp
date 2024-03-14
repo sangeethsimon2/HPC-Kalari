@@ -11,6 +11,9 @@
 #include "hostTimer.hpp"
 #include "kernel.hpp"
 #include "jacobiSerialImpl.hpp"
+#include "boundaryUpdaterInterface.hpp"
+#include "dirichletBoundaryCreator.hpp"
+
 
 
 
@@ -35,7 +38,6 @@ int main(int argc, char **argv){
     else {
          throw std::invalid_argument("Invalid value of DIM. Unable to initialize grid\n");
     }
-
     // Create the grid
     grid->createGrid();
 
@@ -51,11 +53,16 @@ int main(int argc, char **argv){
 
     //Instantiate a host timer
     hostTimer hostTimer;
-
     hostTimer.startClock();
-
     hostTimer.stopClock();
     hostTimer.printElapsedTime();
+
+    //Create boundary updater and update boundaries
+    BoundaryUpdaterInterface* boundaryUpdater = new DirichletBoundaryCreator(temperature_initial.get()->getState());
+    //Set the boundary condition type (in the background the factory method is called)
+    boundaryUpdater->setBoundaryConditionType();
+    //Call the update method of the correct boundary type
+    boundaryUpdater->updateBoundaries();
 
     //Create a Kernel instance
     Kernel heatKernel(std::make_unique<JacobiSerialImpl>());
