@@ -6,14 +6,14 @@ Part of the factor method patter covering the bondary condition implementation*/
 
 #include<iostream>
 
-#include "boundaryUpdaterInterface.hpp"
-#include "dirichletBoundaryConditionImpl.hpp"
+#include "boundaryCreatorInterface.hpp"
+#include "dirichletBoundaryTypeImpl.hpp"
 
 
-class DirichletBoundaryCreator: public BoundaryUpdaterInterface{
+class DirichletBoundaryCreator: public BoundaryCreatorInterface{
     public:
             //CTOR
-            DirichletBoundaryCreator(float* _ptr2State): BoundaryUpdaterInterface(_ptr2State){}
+            DirichletBoundaryCreator(float* _ptr2State, int _Nx, int _Ny, int _Nz=0, float _surfaceTemp=0.): BoundaryCreatorInterface(_ptr2State, _Nx, _Ny, _Nz, _surfaceTemp){}
             BoundaryConditionTypeInterface* createBoundaryType() override{return(new DirichletImpl());}
 
 };

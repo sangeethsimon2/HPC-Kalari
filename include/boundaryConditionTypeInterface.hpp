@@ -6,7 +6,7 @@ depending on the user choice*/
 
 class BoundaryConditionTypeInterface{
     public:
-           virtual void updateBoundaries(float* _ptr2SolutionInitial)=0;
+           virtual void updateBoundaries(float* _ptr2SolutionInitial, int _Nx, int _Ny, int _Nz, float _surfaceTemperature)=0;
            virtual ~BoundaryConditionTypeInterface() = default;
 };
 
