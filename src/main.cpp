@@ -1,7 +1,8 @@
 #include<iostream>
 #include<string>
 #include<memory>
-#include <stdexcept>
+#include<stdexcept>
+#include<cmath>
 
 #include "parameterObject.hpp"
 #include "grid.hpp"
@@ -51,26 +52,35 @@ int main(int argc, char **argv){
     initializationObject.initialize(temperature_initial.get(), params->getTotalGridSize(), 1.0);
     initializationObject.initialize(temperature_updated.get(), params->getTotalGridSize(), 0.0);
 
-    //Instantiate a host timer
-    hostTimer hostTimer;
-    hostTimer.startClock();
-    hostTimer.stopClock();
-    hostTimer.printElapsedTime();
-
     //Create boundary updater and update boundaries
     BoundaryCreatorInterface* boundaryUpdater = new DirichletBoundaryCreator(temperature_initial.get()->getState(),
     params->getGridSize("x"), params->getGridSize("y"), params->getGridSize("z"), 10.0);
     //Set the boundary condition type (in the background the factory method is called)
     boundaryUpdater->setBoundaryConditionType();
     //Call the update method of the correct boundary type
-    //For dirichlet boundary conditions, call this only once; for other types, call in convergence loop
-    boundaryUpdater->updateBoundaries();
 
     //Create a Kernel instance
     Kernel heatKernel(std::make_unique<JacobiSerialImpl>(params->getGridSize("x"), params->getGridSize("y"), params->getGridSize("z"),
     params->getTimeStep(), params->getConductivityCoeff()));
-    //Call the update method
-    heatKernel.updateSolution(temperature_initial.get(), temperature_updated.get());
 
+    //Instantiate a host timer
+    hostTimer hostTimer;
+    hostTimer.startClock();
+    do{
+      //For dirichlet boundary conditions, call this only once; for other types, call in convergence loop
+      boundaryUpdater->updateBoundaries();
+
+      //Call the update method
+      heatKernel.updateSolution(temperature_initial.get(), temperature_updated.get());
+
+      //Compute error
+      float error = sqrt(heatKernel.computeError());
+      std::cout<<"Error="<<error<<"\n";
+      //Check for convergence
+      /* Break if convergence reached or step greater than maxStep */
+      if (error<params->getConvergenceTolerance()) break;
+    }while(true);
+    hostTimer.stopClock();
+    hostTimer.printElapsedTime();
     return 0;
 }

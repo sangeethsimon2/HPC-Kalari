@@ -20,10 +20,7 @@ target_sources(HeatKernelND PRIVATE
                src/parameterObject.cpp
                src/structuredGrid.cpp
                src/hostTimer.cpp
-               #src/allocateMemory.cpp
-               #src/deAllocateMemory.cpp
-               #src/initialize.cpp
-               #src/update.cpp
+               src/jacobiSerialImpl.cpp
 )
 
 if (CMAKE_BUILD_TYPE STREQUAL "Release")

@@ -7,6 +7,7 @@ the correct jacobi implementation to compute the heat equation updates*/
 #include<memory>
 
 #include "jacobiInterface.hpp"
+#include "jacobiSerialImpl.hpp"
 #include "state.hpp"
 
 class Kernel{
@@ -21,6 +22,8 @@ class Kernel{
         void updateSolution(State* _solutionInitial=nullptr, State* _solutionUpdated=nullptr){
             m_jacobiStrategy->updateSolution(_solutionInitial->getState(), _solutionUpdated->getState());
         }
+        //TODO: Not a clean way to access the error counter. Rethink a better stratey!
+        float computeError(){return(dynamic_cast<JacobiSerialImpl*>(m_jacobiStrategy.get())->accumulatedErrorPerTimeStep);}
     protected:
         std::unique_ptr<JacobiInterface> m_jacobiStrategy;
 };
