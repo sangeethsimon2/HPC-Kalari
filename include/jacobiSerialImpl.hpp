@@ -10,6 +10,7 @@ base class, the kernel class and the main()*/
 
 #include "jacobiInterface.hpp"
 
+template<int DIM>
 class JacobiSerialImpl: public JacobiInterface{
 
     public:

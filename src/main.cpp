@@ -60,12 +60,14 @@ int main(int argc, char **argv){
     //Call the update method of the correct boundary type
 
     //Create a Kernel instance
-    Kernel heatKernel(std::make_unique<JacobiSerialImpl>(params->getGridSize("x"), params->getGridSize("y"), params->getGridSize("z"),
+    Kernel<2> heatKernel(std::make_unique<JacobiSerialImpl<2>>(params->getGridSize("x"), params->getGridSize("y"), params->getGridSize("z"),
     params->getTimeStep(), params->getConductivityCoeff()));
 
     //Instantiate a host timer
     hostTimer hostTimer;
     hostTimer.startClock();
+    int iter=0;
+    //while(iter<1)
     do{
       //For dirichlet boundary conditions, call this only once; for other types, call in convergence loop
       boundaryUpdater->updateBoundaries();
@@ -79,6 +81,8 @@ int main(int argc, char **argv){
       //Check for convergence
       /* Break if convergence reached or step greater than maxStep */
       if (error<params->getConvergenceTolerance()) break;
+      iter++;
+    //}
     }while(true);
     hostTimer.stopClock();
     hostTimer.printElapsedTime();
