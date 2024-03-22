@@ -15,7 +15,10 @@ class BoundaryCreatorInterface{
            BoundaryCreatorInterface(float* _ptr2State, int _Nx, int _Ny, int _Nz=0, float _surfaceTemp=0.): m_ptr2State(_ptr2State),
            m_Nx(_Nx), m_Ny(_Ny), m_Nz(_Nz), m_surfaceTemp(_surfaceTemp){}
            //Method to set the boundary condition strategy
-           void setBoundaryConditionType(){m_BCType =this->createBoundaryType();}
+           void setBoundaryConditionType(){
+              m_BCType =this->createBoundaryType();
+              std::cout<<"Setting up Dirichlet boundary condition\n";
+       }
 
            //Method to call the update method generated from the factory method
            void updateBoundaries(){

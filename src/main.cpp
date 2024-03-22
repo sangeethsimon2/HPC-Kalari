@@ -54,8 +54,15 @@ int main(int argc, char **argv){
 
     //Create boundary updater and update boundaries
     //TODO how do I avoid new here and use RAII to delete the memory automatically?
-    BoundaryCreatorInterface* boundaryUpdater= new DirichletBoundaryCreator<2>(temperature_initial.get()->getState(),
+    std::unique_ptr<BoundaryCreatorInterface> boundaryUpdater;
+    if(params->getDimensionality()==2){
+       boundaryUpdater = std::make_unique<DirichletBoundaryCreator<2>>(temperature_initial.get()->getState(),
+    params->getGridSize("x"), params->getGridSize("y"), 0, 10.0);
+    }
+    else if (params->getDimensionality()==3) {
+       boundaryUpdater = std::make_unique<DirichletBoundaryCreator<3>>(temperature_initial.get()->getState(),
     params->getGridSize("x"), params->getGridSize("y"), params->getGridSize("z"), 10.0);
+    }
     //Set the boundary condition type (in the background the factory method is called)
     boundaryUpdater->setBoundaryConditionType();
     //Call the update method of the correct boundary type
