@@ -21,6 +21,7 @@ target_sources(HeatKernelND PRIVATE
                src/structuredGrid.cpp
                src/hostTimer.cpp
                src/jacobiSerialImpl.cpp
+               src/dirichletBoundaryTypeImpl.cpp
 )
 
 if (CMAKE_BUILD_TYPE STREQUAL "Release")
