@@ -18,7 +18,7 @@ class StructuredVTKWriter : public VTKWriter{
         ~StructuredVTKWriter() = default;
 
         // Method to write structured grid format vtk files
-        void writeVTK(){
+        void writeFile()final {
          std::cout<<"Writing structured VTK files"<<std::endl;
         }
 };

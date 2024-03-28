@@ -2,29 +2,29 @@
 #ifndef _IOManager_H
 #define _IOManager_H
 
-template<typename T>
+#include "writer.hpp"
+#include "structuredVTKWriter.hpp"
+
 class IOManager {
 public:
-    IOManager() : vtkWriter(new T()) {}
+    IOManager() : m_Writer() {}
 
-    ~IOManager() {
-        delete vtkWriter;
-    }
+    IOManager(std::shared_ptr<Writer> _structuredvtkwriter) : m_Writer(_structuredvtkwriter) {}
 
     void writeOutput() {
-        vtkWriter->writeVTK();
+        m_Writer->writeFile();
     }
 
     void setParameter(const std::shared_ptr<parameters> _param) {
-        vtkWriter->setParameter(_param);
+        m_Writer->setParameter(_param);
     }
 
     void setState(const std::shared_ptr<State> _state) {
-        vtkWriter->setState(_state);
+        m_Writer->setState(_state);
     }
 
 private:
-    T* vtkWriter;
+    std::shared_ptr<Writer> m_Writer = nullptr;
 
 };
 

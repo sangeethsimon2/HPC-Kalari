@@ -2,12 +2,9 @@
 #ifndef _VTKWRITER_H
 #define _VTKWRITER_H
 
-#include<memory>
+#include "writer.hpp"
 
-#include<parameterObject.hpp>
-#include<state.hpp>
-
-class VTKWriter{
+class VTKWriter : public Writer {
     public:
            //Default CTOR
            VTKWriter()=default;
@@ -18,17 +15,7 @@ class VTKWriter{
            //Virtual destructor
            virtual ~VTKWriter() = default;
 
-           //Virtual method to write VTK files(overrriden by specific Vtk format writers)
-           virtual void writeVTK() = 0;
-
-           //Setter method for the shared pointer to the parameter object
-           void setParameter(const std::shared_ptr<parameters> _parameters){m_ptr2Parameters = _parameters;}
-           //Setter method for the shared pointer to the state object
-           void setState(const std::shared_ptr<State> _state){m_ptr2State = _state;}
-
-    protected:
-            std::shared_ptr<parameters> m_ptr2Parameters;
-            std::shared_ptr<State>      m_ptr2State;
-
+           //Override the Virtual method from the writer to write VTK files(final impl by specific Vtk format writers)
+           void writeFile() override{};
 };
 #endif
