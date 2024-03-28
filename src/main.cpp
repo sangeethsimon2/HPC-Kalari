@@ -14,15 +14,18 @@
 #include "jacobiSerialImpl.hpp"
 #include "boundaryCreatorInterface.hpp"
 #include "dirichletBoundaryCreator.hpp"
-
-
+#include "IOManagerFactory.hpp"
+#include "IOManager.hpp"
+#include "VTKWriter.hpp"
 
 
 int main(int argc, char **argv){
     std::string fileName = argv[1];
 
     //create a parameter class instance
-    parameters* params = parameters::getInstance(fileName);
+    //This doesn't work
+    //std::shared_ptr<parameters> params = parameters::getInstance(fileName);
+    std::shared_ptr<parameters> params(parameters::getInstance(fileName));
 
 
     //Create a structured grid instance and pass its ownership to a Grid smart pointer
@@ -104,5 +107,15 @@ int main(int argc, char **argv){
     }while(true);
     hostTimer.stopClock();
     hostTimer.printElapsedTime();
+
+
+    // Create IOManager using Factory
+    IOManager<VTKWriter>* ioManager = IOManagerFactory::createIOManager(params);
+    if (ioManager) {
+        ioManager->setParameter(params);
+        ioManager->setState(temperature_updated);
+        ioManager->writeOutput();
+        delete ioManager;
+    }
     return 0;
 }

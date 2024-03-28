@@ -9,6 +9,7 @@
 #include<cassert>
 #include<iostream>
 #include<algorithm>
+#include<memory>
 
 class parameters{
 public:
@@ -19,7 +20,7 @@ public:
           void operator =(const parameters&) = delete;
 
           //Interface function that calls the CTOR
-          static parameters* getInstance(const std::string& fileName);
+          static std::shared_ptr<parameters> getInstance(const std::string& fileName);
 
           //Static interface method to instantiate a static object of this class
           //static void loadParameters();
@@ -36,6 +37,8 @@ public:
           int getTotalGridSize();
           float getGridSpacing(std::string direction);
           float getTimeStep();
+          std::string getOutputType();
+          std::string getVTKFormatType();
 
           //A function to check for correctness of the provided parameters
           void checkParameters();
@@ -45,7 +48,7 @@ public:
           void computeAdditionalParameters();
 protected:
           //Static instance filled by the CTOR
-          static parameters* m_uniqueParameterInstance;
+          static std::shared_ptr<parameters> m_uniqueParameterInstance;
 
           //CTOR
           parameters(const std::string& fileName){
@@ -66,6 +69,8 @@ private:
         int m_Nx, m_Ny, m_Nz;
         float m_conductivityCoeff;
         float m_convergenceTolerance;
+        std::string m_outputType="vtk";
+        std::string m_VTKFormatType="structured";
 
         //Computed parameters
         float m_totalGridSize=0.;

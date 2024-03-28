@@ -1,6 +1,6 @@
 #include "parameterObject.hpp"
 // Definition of the static member
-parameters* parameters::m_uniqueParameterInstance = nullptr;
+std::shared_ptr<parameters> parameters::m_uniqueParameterInstance = nullptr;
 
 //Implementation of the file reading method that is called from the CTOR
 void parameters::readParameterFile(const std::string& fileName)
@@ -39,10 +39,13 @@ void parameters::readParameterFile(const std::string& fileName)
 }
 
 // Implementation of the getInstance method that calls the CTOR
-parameters* parameters::getInstance(const std::string& fileName)
+std::shared_ptr<parameters> parameters::getInstance(const std::string& fileName)
 {
     if(parameters::m_uniqueParameterInstance==nullptr){
-        parameters::m_uniqueParameterInstance = new parameters(fileName);
+        //This works
+        //parameters::m_uniqueParameterInstance.reset(new parameters(fileName));
+        //This works
+        parameters::m_uniqueParameterInstance = std::shared_ptr<parameters>(new parameters(fileName));
     }
     return parameters::m_uniqueParameterInstance;
 }
@@ -84,6 +87,9 @@ float parameters::getGridSpacing(std::string direction){
       {std::cout<<" Direction not recognized"; abort();}
 }
 float parameters::getTimeStep(){return(m_dt);}
+
+std::string parameters::getOutputType(){return(m_outputType);}
+std::string parameters::getVTKFormatType(){return(m_VTKFormatType);}
 
 // Implementation of the method to check the correctness of the parameters
 void parameters::checkParameters(){
