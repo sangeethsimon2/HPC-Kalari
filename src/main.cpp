@@ -4,6 +4,7 @@
 #include<stdexcept>
 #include<cmath>
 
+#include "solver.hpp"
 #include "parameterObject.hpp"
 #include "grid.hpp"
 #include "structuredGrid.hpp"
@@ -22,69 +23,26 @@
 int main(int argc, char **argv){
     std::string fileName = argv[1];
 
-    //create a parameter class instance
-    //This doesn't work
-    //std::shared_ptr<parameters> params = parameters::getInstance(fileName);
-    std::shared_ptr<parameters> params(parameters::getInstance(fileName));
+    // Create an instance of the Solver class
+    Solver solver;
 
+    //create a parameter class instance
+    solver.createParameters(fileName);
 
     //Create a structured grid instance and pass its ownership to a Grid smart pointer
-    std::unique_ptr<Grid> grid;
-    if(params->getDimensionality()==2){
-    grid = std::make_unique<StructuredGrid<2>>(params->getDomainLength("x"),
-    params->getDomainLength("y"), params->getGridSize("x"), params->getGridSize("y"));
-    }
-    else if(params->getDimensionality()==3){
-    grid = std::make_unique<StructuredGrid<3>>(params->getDomainLength("x"),
-    params->getDomainLength("y"), params->getDomainLength("z"), params->getGridSize("x"),
-    params->getGridSize("y"), params->getGridSize("z"));
-    }
-    else {
-         throw std::invalid_argument("Invalid value of DIM. Unable to initialize grid\n");
-    }
-    // Create the grid
-    grid->createGrid();
+    solver.createGrid();
 
     // Create an  flattened array to store the temperature data
-    // Ownership of this temperature state can be shared if needed
-    std::shared_ptr<State> temperature_initial = std::make_shared<State>(params->getTotalGridSize());
-    std::shared_ptr<State> temperature_updated = std::make_shared<State>(params->getTotalGridSize());
+    solver.createState();
 
     //Initialize using an initializer class
-    Initializer initializationObject;
-    initializationObject.initialize(temperature_initial.get(), params->getTotalGridSize(), 1.0);
-    initializationObject.initialize(temperature_updated.get(), params->getTotalGridSize(), 0.0);
+    solver.initializeStates();
 
     //Create boundary updater and update boundaries
-    //TODO how do I avoid new here and use RAII to delete the memory automatically?
-    std::unique_ptr<BoundaryCreatorInterface> boundaryUpdater;
-    if(params->getDimensionality()==2){
-       boundaryUpdater = std::make_unique<DirichletBoundaryCreator<2>>(temperature_initial.get()->getState(),
-    params->getGridSize("x"), params->getGridSize("y"), 0, 10.0);
-    }
-    else if (params->getDimensionality()==3) {
-       boundaryUpdater = std::make_unique<DirichletBoundaryCreator<3>>(temperature_initial.get()->getState(),
-    params->getGridSize("x"), params->getGridSize("y"), params->getGridSize("z"), 10.0);
-    }
-    //Set the boundary condition type (in the background the factory method is called)
-    boundaryUpdater->setBoundaryConditionType();
-    //Call the update method of the correct boundary type
+    solver.createBoundaryCondition();
 
     //Create a Kernel instance
-    // TODO How do I avoid creating two unique ptrs here and instead do this depending only on the dimensionality?
-    std::unique_ptr<Kernel<2>> heatKernel2D;
-    std::unique_ptr<Kernel<3>> heatKernel3D;
-
-    if(params->getDimensionality()==2){
-      heatKernel2D = std::make_unique<Kernel<2>>(std::make_unique<JacobiSerialImpl<2>>(params->getGridSize("x"), params->getGridSize("y"), 0,
-      params->getTimeStep(), params->getConductivityCoeff()));
-    }
-    else if (params->getDimensionality()==3) {
-      heatKernel3D =  std::make_unique<Kernel<3>>(std::make_unique<JacobiSerialImpl<3>>(params->getGridSize("x"), params->getGridSize("y"), params->getGridSize("z"),
-      params->getTimeStep(), params->getConductivityCoeff()));
-    }
-    else
-        throw std::runtime_error("Invalid value of DIM, unable to initialize kernel\n");
+    solver.createKernel();
 
     //Instantiate a host timer
     hostTimer hostTimer;
@@ -92,17 +50,16 @@ int main(int argc, char **argv){
     int iter=0;
     do{
       //For dirichlet boundary conditions, call this only once; for other types, call in convergence loop
-      boundaryUpdater->updateBoundaries();
+      solver.updateBoundaries();
 
       //Call the update method
-      heatKernel2D->updateSolution(temperature_initial.get(), temperature_updated.get());
+      solver.updateSolution();
 
-      //Compute error
-      float error = sqrt(heatKernel2D->computeError());
-      std::cout<<"Error="<<error<<"\n";
+      // //Compute error
+      solver.computeError();
       //Check for convergence
       /* Break if convergence reached or step greater than maxStep */
-      if (error<params->getConvergenceTolerance()) break;
+      if (solver.getError()<solver.getConvergenceTolerance()) break;
       iter++;
     }while(true);
     hostTimer.stopClock();
@@ -110,12 +67,11 @@ int main(int argc, char **argv){
 
 
     // Create IOManager using Factory
-    IOManager<VTKWriter>* ioManager = IOManagerFactory::createIOManager(params);
+    std::shared_ptr<IOManager> ioManager = IOManagerFactory::createIOManager(solver.getPtr2Parameters());
     if (ioManager) {
-        ioManager->setParameter(params);
-        ioManager->setState(temperature_updated);
+        ioManager->setParameter(solver.getPtr2Parameters());
+        ioManager->setState(solver.getPtr2Temperature_updated());
         ioManager->writeOutput();
-        delete ioManager;
     }
     return 0;
 }
