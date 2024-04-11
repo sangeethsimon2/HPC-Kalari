@@ -15,27 +15,24 @@ void parameters::readParameterFile(const std::string& fileName)
 				m_dimensionality=std::stoi(data);
 			else if(comment=="domainLengthX")
 				m_domainX=std::stof(data);
-            else if(comment=="domainLengthY")
+      else if(comment=="domainLengthY")
 				m_domainY=std::stof(data);
-            else if(comment=="domainLengthZ")
+      else if(comment=="domainLengthZ")
 				m_domainZ=std::stof(data);
 			else if(comment=="Nx")
 				m_Nx=std::stoi(data);
-            else if(comment=="Ny")
+      else if(comment=="Ny")
 				m_Ny=std::stoi(data);
-            else if(comment=="Nz")
+      else if(comment=="Nz")
 				m_Nz=std::stoi(data);
 			else if(comment=="conductivityCoeff")
 				m_conductivityCoeff=std::stof(data);
       else if(comment=="convergenceTol")
 				m_convergenceTolerance=std::stof(data);
+      else if(comment=="maxIterations")
+        m_maxIterations=std::stoi(data);
 		}
 	dataFile.close();
-
-
-	//Output the parameters to user
-//	std::cout<<"The parameters that were read in are:\n";
-//	std::cout<<"Length="<<p._L<<", Num of cells="<<p._N<<", CFL="<<p._cfl<<", tmax="<<p._tmax<<", wavespeed="<<p._A<<", Max iterations="<<p._itmax<<"\n";
 }
 
 // Implementation of the getInstance method that calls the CTOR
@@ -74,6 +71,7 @@ int parameters::getGridSize(std::string direction){
 }
 
 float parameters::getConductivityCoeff(){return(m_conductivityCoeff);}
+int parameters::getMaxIterations(){return(m_maxIterations);}
 float parameters::getConvergenceTolerance(){return(m_convergenceTolerance);}
 int parameters::getTotalGridSize(){return(m_totalGridSize);}
 float parameters::getGridSpacing(std::string direction){
@@ -137,7 +135,7 @@ void parameters::computeAdditionalParameters(){
   assert((m_dz>=0.) && " Grid spacing in Z cannot be negative");
 
   //Compute time step according to CFL stability criterion
-  m_dt = (1.0/4.0 * getConductivityCoeff()) * (getDimensionality() == 2 ?
+  m_dt = (0.25 / getConductivityCoeff()) * (getDimensionality() == 2 ?
   std::min(m_dx * m_dx, m_dy * m_dy) : std::min(std::min(m_dx * m_dx, m_dy * m_dy), m_dz * m_dz));
   assert((m_dt>0.) && "Computed time step must be >0");
 }

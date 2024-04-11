@@ -23,6 +23,10 @@ target_sources(HeatKernelND PRIVATE
                src/jacobiSerialImpl.cpp
                src/dirichletBoundaryTypeImpl.cpp
 )
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    message(STATUS "Enabling -O0 optimization flag")
+    add_compile_options(-O0 -g)
+endif()
 
 if (CMAKE_BUILD_TYPE STREQUAL "Release")
     message(STATUS "Enabling -O3 optimization flag")

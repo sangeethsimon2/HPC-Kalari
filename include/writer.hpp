@@ -28,6 +28,11 @@ class Writer{
            //Setter method for the shared pointer to the state object
            void setState(const std::shared_ptr<State> _state){m_ptr2State = _state;}
 
+           //Getter method for the shared pointer to the parameter object
+           std::shared_ptr<parameters> getPtr2Parameters() const {return m_ptr2Parameters;}
+           //Getter method for the shared pointer to the state object
+           std::shared_ptr<State> getPtr2State() const {return m_ptr2State;}
+
      protected:
             std::shared_ptr<parameters> m_ptr2Parameters;
             std::shared_ptr<State>      m_ptr2State;

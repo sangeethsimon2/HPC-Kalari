@@ -7,7 +7,9 @@ base class, the kernel class and the main()*/
 #define _JACOBIIMPL_H
 
 #include<iostream>
-
+#include <math.h>
+#include <fstream>
+#include <iomanip>
 #include "jacobiInterface.hpp"
 
 template<int DIM>
@@ -20,6 +22,7 @@ class JacobiSerialImpl: public JacobiInterface{
            JacobiSerialImpl(int _Nx=0, int _Ny=0, int _Nz=0, float _dt=0, float _thermalCoeff=0):
              m_Nx(_Nx), m_Ny(_Ny), m_Nz(_Nz), m_dt(_dt), m_thermalCoeff(_thermalCoeff){
               processAndStoreComputationCoefficients();
+              std::cout<<" Finished setting up JacobiSerial Kernel\n";
              }
 
            //Method to compute some kernel parameters

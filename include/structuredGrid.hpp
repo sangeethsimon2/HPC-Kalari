@@ -23,7 +23,7 @@ class StructuredGrid:public Grid{
                          Grid(_domainX, _domainY, _domainZ, _Nx, _Ny, _Nz){
 
                 // Method call to compute the grid spacing
-                computeGridSpacing();
+                //computeGridSpacing();
             }
           //DTOR
           ~StructuredGrid(){
@@ -37,10 +37,8 @@ class StructuredGrid:public Grid{
           //Override the create grid class
           void createGrid()override final;
 
-
     private:
           std::vector<float> gridArray;
-          float m_dx, m_dy, m_dz;
 };
 
 

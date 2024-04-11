@@ -37,8 +37,8 @@ int main(int argc, char **argv){
 
     //Initialize using an initializer class
     solver.initializeStates();
-
-    //Create boundary updater and update boundaries
+    //solver.printState();
+    //Create boundary updater
     solver.createBoundaryCondition();
 
     //Create a Kernel instance
@@ -49,22 +49,23 @@ int main(int argc, char **argv){
     hostTimer.startClock();
     int iter=0;
     do{
-      //For dirichlet boundary conditions, call this only once; for other types, call in convergence loop
+      iter++;
+      std::cout<<"Iteration = "<<iter<<std::endl;
+      //TODO: Automate For dirichlet boundary conditions, call this only once; for other types, call in convergence loop
       solver.updateBoundaries();
-
       //Call the update method
       solver.updateSolution();
-
       // //Compute error
       solver.computeError();
+      //solver.printState();
       //Check for convergence
       /* Break if convergence reached or step greater than maxStep */
-      if (solver.getError()<solver.getConvergenceTolerance()) break;
-      iter++;
+      if (solver.getError()<solver.getConvergenceTolerance() || iter>=solver.getMaxIterations()) break;
     }while(true);
     hostTimer.stopClock();
     hostTimer.printElapsedTime();
 
+    solver.printState();
 
     // Create IOManager using Factory
     std::shared_ptr<IOManager> ioManager = IOManagerFactory::createIOManager(solver.getPtr2Parameters());

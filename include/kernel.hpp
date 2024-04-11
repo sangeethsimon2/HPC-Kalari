@@ -13,10 +13,10 @@ the correct jacobi implementation to compute the heat equation updates*/
 template<int DIM>
 class Kernel{
     public:
-        explicit Kernel(std::unique_ptr<JacobiInterface> &&_jacobiStrategy = {}): m_jacobiStrategy(std::move(_jacobiStrategy))
-        {}
+        explicit Kernel(std::shared_ptr<JacobiInterface> &&_jacobiStrategy = {}): m_jacobiStrategy(std::move(_jacobiStrategy))
+        {std::cout<<" Finished creating the kernel\n";}
 
-        void setJacobiImplementation(std::unique_ptr<JacobiInterface> &&_jacobiStrategy){
+        void setJacobiImplementation(std::shared_ptr<JacobiInterface> &&_jacobiStrategy){
           m_jacobiStrategy = std::move(_jacobiStrategy);
         }
 
@@ -26,6 +26,6 @@ class Kernel{
         //TODO: Not a clean way to access the error counter. Rethink a better stratey!
         float computeError(){return(dynamic_cast<JacobiSerialImpl<DIM>*>(m_jacobiStrategy.get())->accumulatedErrorPerTimeStep);}
     protected:
-        std::unique_ptr<JacobiInterface> m_jacobiStrategy;
+        std::shared_ptr<JacobiInterface> m_jacobiStrategy;
 };
 #endif

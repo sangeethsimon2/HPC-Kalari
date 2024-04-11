@@ -34,6 +34,7 @@ public:
           int getGridSize(std::string direction);
           float getConductivityCoeff();
           float getConvergenceTolerance();
+          int getMaxIterations();
           int getTotalGridSize();
           float getGridSpacing(std::string direction);
           float getTimeStep();
@@ -69,6 +70,7 @@ private:
         int m_Nx, m_Ny, m_Nz;
         float m_conductivityCoeff;
         float m_convergenceTolerance;
+        int m_maxIterations;
         std::string m_outputType="vtk";
         std::string m_VTKFormatType="structured";
 

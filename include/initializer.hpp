@@ -3,13 +3,13 @@
 #define _INITIALIZER_H
 
 #include<memory>
+#include <fstream>
 #include "state.hpp"
-
 
 class Initializer{
    public:
           //Delete copy CTOR
-          Initializer(Initializer& grid) = delete;
+          Initializer(Initializer& _init) = delete;
 
           //Delete assigment CTOR
           void operator =(const Initializer&) = delete;
@@ -21,6 +21,11 @@ class Initializer{
           void initialize(State* _state, const int _totalSize, const float _initialValue){
              for (auto i=0;i<_totalSize;i++)
                 _state->getState()[i] = _initialValue;
+          }
+          void printInitializedState(std::ofstream& debugOut, State* _state, const int _totalSize){
+             std::cout<<"Initializer is printing its effects on the state\n";
+             for (auto i=0;i<_totalSize;i++)
+                debugOut<<"at index "<<i<<" the value is "<<_state->getState()[i]<<"\n";
           }
 };
 
