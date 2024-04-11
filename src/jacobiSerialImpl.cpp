@@ -2,7 +2,7 @@
 
 #include "jacobiSerialImpl.hpp"
 template<int DIM>
-float JacobiSerialImpl<DIM>::accumulatedErrorPerTimeStep=0.;
+double JacobiSerialImpl<DIM>::accumulatedErrorPerTimeStep=0.;
 
 template<int DIM>
 void JacobiSerialImpl<DIM>::processAndStoreComputationCoefficients(){
@@ -27,7 +27,7 @@ void JacobiSerialImpl<DIM>::processAndStoreComputationCoefficients(){
 
 // Implement first order FD stencil scheme (derivative approx by 3-point stencil)
 template<int DIM>
-void JacobiSerialImpl<DIM>::updateSolution(float* _ptr2SolutionInitial, float* _ptr2SolutionUpdated){
+void JacobiSerialImpl<DIM>::updateSolution(double* _ptr2SolutionInitial, double* _ptr2SolutionUpdated){
             //std::cout<<" Begin computing the kernel\n";
             if constexpr (DIM==2){
                 for(int j=1;j<m_Ny-1;j++){

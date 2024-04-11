@@ -30,8 +30,8 @@ class StructuredVTKWriter : public VTKWriter{
          if(ptr2Params->getDimensionality() ==2){
             int Nx = ptr2Params->getGridSize("x");
             int Ny = ptr2Params->getGridSize("y");
-            float dx = ptr2Params->getGridSpacing("x");
-            float dy = ptr2Params->getGridSpacing("y");
+            double dx = ptr2Params->getGridSpacing("x");
+            double dy = ptr2Params->getGridSpacing("y");
             int N = Nx * Ny;
 
             out << "# vtk DataFile Version 3.0\n";
@@ -58,9 +58,9 @@ class StructuredVTKWriter : public VTKWriter{
             int Nx = ptr2Params->getGridSize("x");
             int Ny = ptr2Params->getGridSize("y");
             int Nz = ptr2Params->getGridSize("z");
-            float dx = ptr2Params->getGridSpacing("x");
-            float dy = ptr2Params->getGridSpacing("y");
-            float dz = ptr2Params->getGridSpacing("z");
+            double dx = ptr2Params->getGridSpacing("x");
+            double dy = ptr2Params->getGridSpacing("y");
+            double dz = ptr2Params->getGridSpacing("z");
             int N = Nx * Ny * Nz;
 
             out << "# vtk DataFile Version 3.0\n";

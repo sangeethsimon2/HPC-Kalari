@@ -2,7 +2,7 @@
 #include "dirichletBoundaryTypeImpl.hpp"
 
 template<int DIM>
-void DirichletImpl<DIM>::updateBoundaries(float* _ptr2State, int _Nx, int _Ny, int _Nz, float _surfaceTemperature){
+void DirichletImpl<DIM>::updateBoundaries(double* _ptr2State, int _Nx, int _Ny, int _Nz, double _surfaceTemperature){
    if constexpr(DIM==2){
       //Set surface temperature for all faces intersecting the x axis  at i=0 & i=Nx-1:
       //These constitute the Left and Right boundaries of the domain

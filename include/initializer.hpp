@@ -18,7 +18,7 @@ class Initializer{
           Initializer(){};
 
           //Actual function that initializes State data
-          void initialize(State* _state, const int _totalSize, const float _initialValue){
+          void initialize(State* _state, const int _totalSize, const double _initialValue){
              for (auto i=0;i<_totalSize;i++)
                 _state->getState()[i] = _initialValue;
           }

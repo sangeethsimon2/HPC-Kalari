@@ -3,10 +3,10 @@
 template<int DIM>
 void StructuredGrid<DIM>::computeGridSpacing(){
                //   //TODO test for exceptions here, especially NAN in spacings for wrong inputs
-               //   m_dx = (float)(m_domainX/m_Nx);
-               //   m_dy = (float)(m_domainY/m_Ny);
+               //   m_dx = (double)(m_domainX/m_Nx);
+               //   m_dy = (double)(m_domainY/m_Ny);
                //   if constexpr (DIM == 3)
-               //     m_dz = (float)(m_domainZ/m_Nz);
+               //     m_dz = (double)(m_domainZ/m_Nz);
 }
 
 /*The grid storage convention is x, y, z: grid(i+)*/

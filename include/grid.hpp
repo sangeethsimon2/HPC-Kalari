@@ -12,7 +12,7 @@ class Grid{
            void operator =(const Grid&) = delete;
 
            //CTOR
-           Grid(float _domainX=1, float _domainY=1, float _domainZ=0., int _Nx=1, int _Ny=1, int _Nz=1){
+           Grid(double _domainX=1, double _domainY=1, double _domainZ=0., int _Nx=1, int _Ny=1, int _Nz=1){
                 m_domainX = _domainX;
                 m_domainY = _domainY;
                 m_domainZ = _domainZ;
@@ -30,7 +30,7 @@ class Grid{
            virtual void createGrid(){};
 
     protected:
-            float m_domainX, m_domainY, m_domainZ;
+            double m_domainX, m_domainY, m_domainZ;
             int m_Nx, m_Ny, m_Nz;
 };
 

@@ -17,9 +17,9 @@ class JacobiSerialImpl: public JacobiInterface{
 
     public:
            //Member that stores the accumulated error per iteration
-            static float accumulatedErrorPerTimeStep;
+            static double accumulatedErrorPerTimeStep;
            //CTOR
-           JacobiSerialImpl(int _Nx=0, int _Ny=0, int _Nz=0, float _dt=0, float _thermalCoeff=0):
+           JacobiSerialImpl(int _Nx=0, int _Ny=0, int _Nz=0, double _dt=0, double _thermalCoeff=0):
              m_Nx(_Nx), m_Ny(_Ny), m_Nz(_Nz), m_dt(_dt), m_thermalCoeff(_thermalCoeff){
               processAndStoreComputationCoefficients();
               std::cout<<" Finished setting up JacobiSerial Kernel\n";
@@ -29,18 +29,18 @@ class JacobiSerialImpl: public JacobiInterface{
            void processAndStoreComputationCoefficients();
 
            //Method that implements the jacobi kernel
-           void updateSolution(float*, float*);
+           void updateSolution(double*, double*);
 
           private:
                  int m_Nx, m_Ny, m_Nz;
-                 float m_dt;
-                 float m_thermalCoeff;
+                 double m_dt;
+                 double m_thermalCoeff;
 
                  //Derived coefficients to render the computations less flops
-                 float m_diagx=0., m_diagy=0., m_diagz=0.;
-                 float m_weightx=0., m_weighty=0., m_weightz=0.;
+                 double m_diagx=0., m_diagy=0., m_diagz=0.;
+                 double m_weightx=0., m_weighty=0., m_weightz=0.;
 
-                 float errorAtEachPoint=0;
+                 double errorAtEachPoint=0;
 };
 
 

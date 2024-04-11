@@ -15,7 +15,7 @@ class DirichletImpl: public BoundaryConditionTypeInterface{
     public:
             //CTOR
             DirichletImpl(){};
-            void updateBoundaries(float*, int, int, int, float);
+            void updateBoundaries(double*, int, int, int, double);
 
 
 };

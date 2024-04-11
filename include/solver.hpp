@@ -139,8 +139,8 @@ class Solver {
             if(m_ptr2Parameters->getDimensionality()==2){
                 int _Nx = m_ptr2Parameters->getGridSize("x");
                 int _Ny = m_ptr2Parameters->getGridSize("y");
-                float _errorAtEachPt = 0.0;
-                float _accumulatedError = 0.0;
+                double _errorAtEachPt = 0.0;
+                double _accumulatedError = 0.0;
 
                 errorOut<<" Error:\n";
 
@@ -157,8 +157,8 @@ class Solver {
                 int _Nx = m_ptr2Parameters->getGridSize("x");
                 int _Ny = m_ptr2Parameters->getGridSize("y");
                 int _Nz = m_ptr2Parameters->getGridSize("z");
-                float _errorAtEachPt = 0.0;
-                float _accumulatedError = 0.0;
+                double _errorAtEachPt = 0.0;
+                double _accumulatedError = 0.0;
 
                 errorOut<<" Error:\n";
                 for(int k=0;k<_Nz;k++){
@@ -221,16 +221,17 @@ class Solver {
 
         void computeError(){
             //Compute error
+
             if(m_ptr2Parameters->getDimensionality()==2)
                m_error = sqrt(m_ptr2HeatKernel2D->computeError());
             else
                m_error = sqrt(m_ptr2HeatKernel3D->computeError());
-            std::cout<<"Error = "<<m_error<<std::endl;
+            std::cout<<  std::setprecision(15)<<std::fixed<<"Error = "<<m_error<<std::endl;
         }
 
-        const float& getError() const{ return(m_error);}
+        const double& getError() const{ return(m_error);}
 
-        const float& getConvergenceTolerance()const {return(m_convergenceTolerance) ;}
+        const double& getConvergenceTolerance()const {return(m_convergenceTolerance) ;}
 
         const int& getMaxIterations()const {return(m_maxIterations);}
 
@@ -247,8 +248,8 @@ class Solver {
         std::shared_ptr<Kernel<2>> m_ptr2HeatKernel2D;
         std::shared_ptr<Kernel<3>> m_ptr2HeatKernel3D;
 
-        float m_error=0.;
-        float m_convergenceTolerance=0.;
+        double m_error=0.;
+        double m_convergenceTolerance=0.;
         int m_maxIterations=0;
 
 };

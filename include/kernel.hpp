@@ -24,7 +24,7 @@ class Kernel{
             m_jacobiStrategy->updateSolution(_solutionInitial->getState(), _solutionUpdated->getState());
         }
         //TODO: Not a clean way to access the error counter. Rethink a better stratey!
-        float computeError(){return(dynamic_cast<JacobiSerialImpl<DIM>*>(m_jacobiStrategy.get())->accumulatedErrorPerTimeStep);}
+        double computeError(){return(dynamic_cast<JacobiSerialImpl<DIM>*>(m_jacobiStrategy.get())->accumulatedErrorPerTimeStep);}
     protected:
         std::shared_ptr<JacobiInterface> m_jacobiStrategy;
 };

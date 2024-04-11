@@ -49,7 +49,7 @@ std::shared_ptr<parameters> parameters::getInstance(const std::string& fileName)
 
 //Implement the getter functions
 int parameters::getDimensionality(){return(m_dimensionality);}
-float parameters::getDomainLength(std::string direction){
+double parameters::getDomainLength(std::string direction){
     if(direction=="x")
       {return(m_domainX);}
     else if (direction=="y")
@@ -70,11 +70,11 @@ int parameters::getGridSize(std::string direction){
       {std::cout<<" Direction not recognized"; abort();}
 }
 
-float parameters::getConductivityCoeff(){return(m_conductivityCoeff);}
+double parameters::getConductivityCoeff(){return(m_conductivityCoeff);}
 int parameters::getMaxIterations(){return(m_maxIterations);}
-float parameters::getConvergenceTolerance(){return(m_convergenceTolerance);}
+double parameters::getConvergenceTolerance(){return(m_convergenceTolerance);}
 int parameters::getTotalGridSize(){return(m_totalGridSize);}
-float parameters::getGridSpacing(std::string direction){
+double parameters::getGridSpacing(std::string direction){
     if(direction=="x")
       {return(m_dx);}
     else if (direction=="y")
@@ -84,7 +84,7 @@ float parameters::getGridSpacing(std::string direction){
     else
       {std::cout<<" Direction not recognized"; abort();}
 }
-float parameters::getTimeStep(){return(m_dt);}
+double parameters::getTimeStep(){return(m_dt);}
 
 std::string parameters::getOutputType(){return(m_outputType);}
 std::string parameters::getVTKFormatType(){return(m_VTKFormatType);}
@@ -125,13 +125,13 @@ void parameters::computeAdditionalParameters(){
   assert((m_totalGridSize!=0) && "Total Grid Size cannot be 0");
 
   //Compute dx, dy and dz
-  m_dx = (float)m_domainX/m_Nx;
+  m_dx = (double)m_domainX/m_Nx;
   assert((m_dx>=0.) && " Grid spacing in X cannot be negative");
 
-  m_dy = (float)m_domainY/m_Ny;
+  m_dy = (double)m_domainY/m_Ny;
   assert((m_dy>=0.) && " Grid spacing in Y cannot be negative");
 
-  m_dz = (float)m_domainZ/m_Nz;
+  m_dz = (double)m_domainZ/m_Nz;
   assert((m_dz>=0.) && " Grid spacing in Z cannot be negative");
 
   //Compute time step according to CFL stability criterion

@@ -19,7 +19,7 @@ class StructuredGrid:public Grid{
           void operator =(const StructuredGrid&) = delete;
 
           //CTOR
-          StructuredGrid(float _domainX=1, float _domainY=1, float _domainZ=0, int _Nx=1, int _Ny=1, int _Nz=1):
+          StructuredGrid(double _domainX=1, double _domainY=1, double _domainZ=0, int _Nx=1, int _Ny=1, int _Nz=1):
                          Grid(_domainX, _domainY, _domainZ, _Nx, _Ny, _Nz){
 
                 // Method call to compute the grid spacing
@@ -38,7 +38,7 @@ class StructuredGrid:public Grid{
           void createGrid()override final;
 
     private:
-          std::vector<float> gridArray;
+          std::vector<double> gridArray;
 };
 
 

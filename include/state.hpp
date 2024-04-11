@@ -25,10 +25,10 @@ class State{
           }
 
           //Getter function
-          float& getStateAtPoint(int index){
+          double& getStateAtPoint(int index){
             return(m_storage[index]);
           }
-          float* getState(){
+          double* getState(){
             return(m_storage.data());
           }
 
@@ -43,7 +43,7 @@ class State{
           //  loop over (j):
           //    loop over (i):
           //       m_storage[i+j*Nx+k*Nx*Ny]
-          std::vector<float> m_storage;
+          std::vector<double> m_storage;
 };
 
 #endif

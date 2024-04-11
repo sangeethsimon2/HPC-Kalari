@@ -30,14 +30,14 @@ public:
 
           // Getter functions
           int getDimensionality();
-          float getDomainLength(std::string direction);
+          double getDomainLength(std::string direction);
           int getGridSize(std::string direction);
-          float getConductivityCoeff();
-          float getConvergenceTolerance();
+          double getConductivityCoeff();
+          double getConvergenceTolerance();
           int getMaxIterations();
           int getTotalGridSize();
-          float getGridSpacing(std::string direction);
-          float getTimeStep();
+          double getGridSpacing(std::string direction);
+          double getTimeStep();
           std::string getOutputType();
           std::string getVTKFormatType();
 
@@ -66,18 +66,18 @@ protected:
 private:
         //User input parameters
         int m_dimensionality;
-        float m_domainX, m_domainY, m_domainZ;
+        double m_domainX, m_domainY, m_domainZ;
         int m_Nx, m_Ny, m_Nz;
-        float m_conductivityCoeff;
-        float m_convergenceTolerance;
+        double m_conductivityCoeff;
+        double m_convergenceTolerance;
         int m_maxIterations;
         std::string m_outputType="vtk";
         std::string m_VTKFormatType="structured";
 
         //Computed parameters
-        float m_totalGridSize=0.;
-        float m_dt=0;
-        float m_dx=0.; float m_dy=0.; float m_dz=0.;
+        double m_totalGridSize=0.;
+        double m_dt=0;
+        double m_dx=0.; double m_dy=0.; double m_dz=0.;
 };
 
 
