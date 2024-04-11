@@ -28,9 +28,6 @@ void JacobiSerialImpl<DIM>::processAndStoreComputationCoefficients(){
 // Implement first order FD stencil scheme (derivative approx by 3-point stencil)
 template<int DIM>
 void JacobiSerialImpl<DIM>::updateSolution(float* _ptr2SolutionInitial, float* _ptr2SolutionUpdated){
-            std::ofstream errorOut( "error.dat" );
-            errorOut<< std::setprecision(15) << std::fixed;
-
             //std::cout<<" Begin computing the kernel\n";
             if constexpr (DIM==2){
                 for(int j=1;j<m_Ny-1;j++){
@@ -52,9 +49,6 @@ void JacobiSerialImpl<DIM>::updateSolution(float* _ptr2SolutionInitial, float* _
               for(int j=1;j<m_Ny-1;j++){
                 for(int i=1;i<m_Nx-1;i++){
                     errorAtEachPoint = _ptr2SolutionUpdated[i+j*m_Nx] - _ptr2SolutionInitial[i+j*m_Nx];
-                    //std::cout<<" Error At Each point="<<errorAtEachPoint<<"\n";
-                    errorOut<<"at index "<<i<<" ,"<<j<<" the value is "<<errorAtEachPoint<<"\n";
-
                     accumulatedErrorPerTimeStep += fabs(errorAtEachPoint*errorAtEachPoint);
                     //Copy arrays
                     //TODO: Would a operator overloading in the state class be an efficient option?
@@ -63,8 +57,6 @@ void JacobiSerialImpl<DIM>::updateSolution(float* _ptr2SolutionInitial, float* _
                     _ptr2SolutionInitial[i+j*m_Nx] = _ptr2SolutionUpdated[i+j*m_Nx];
                 }
               }
-              std::cout<<"accumulatedErrorPerTimeStep="<<accumulatedErrorPerTimeStep<<"\n";
-              errorOut<<"Accumulated error:"<<accumulatedErrorPerTimeStep<<std::endl;
             }
             else if constexpr (DIM==3){
               for(int k=1;k<m_Nz-1;k++){

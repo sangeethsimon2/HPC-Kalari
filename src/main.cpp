@@ -37,7 +37,7 @@ int main(int argc, char **argv){
 
     //Initialize using an initializer class
     solver.initializeStates();
-    //solver.printState();
+
     //Create boundary updater
     solver.createBoundaryCondition();
 
@@ -57,7 +57,6 @@ int main(int argc, char **argv){
       solver.updateSolution();
       // //Compute error
       solver.computeError();
-      //solver.printState();
       //Check for convergence
       /* Break if convergence reached or step greater than maxStep */
       if (solver.getError()<solver.getConvergenceTolerance() || iter>=solver.getMaxIterations()) break;
